@@ -35,7 +35,6 @@ int main()
 
     hfree((void*)ptr5);
 
-    // TODO: colaesce into the top chunk!
     uint64_t ptr6 = (uint64_t)hmalloc(0x200);
     print_heap();
     assert(ptr1 == ptr6);
