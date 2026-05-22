@@ -22,6 +22,8 @@ int main()
     hfree((void*)ptr1);
     print_heap();
     
+    // Coalesce two small chunks to allow a larger allocation
+    // Also hits edge case where 0x10 bytes are leftover which is too small
     uint64_t ptr4 = (uint64_t)hmalloc(0x30);
     print_heap();
     assert(ptr1 == ptr4);
@@ -29,12 +31,14 @@ int main()
     hfree((void*)ptr3);
     hfree((void*)ptr4);
 
+    // Coalesce into top_chunk
     uint64_t ptr5 = (uint64_t)hmalloc(0x50);
     print_heap();
     assert(ptr1 == ptr5);
 
     hfree((void*)ptr5);
 
+    // Coalesce into top_chunk, again.
     uint64_t ptr6 = (uint64_t)hmalloc(0x200);
     print_heap();
     assert(ptr1 == ptr6);
